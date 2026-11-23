@@ -2,9 +2,8 @@ This is a vibecoded tool for decoding, visualising and editing effect strings,
 sent to DPID 25 on tuyamcu on Gledopto GL-C-201W LED dimmer. The tool also implements measurement
 of actual time between led color switches by using a webcam, or an IP camera, or an android phone
 running IP Webcam (disable autofocus, auto white balance and auto exposure for more accurate results,
-pick lower resolution and faster frame times for more accuracy)
-
-The 
+pick lower resolution and faster frame times for more accuracy).
+Big-Pickle and Google's free search AI used.
 
 # Gledopto Effect Lab
 
