@@ -1,0 +1,49 @@
+{
+  "_comment": "Gledopto GL-C-201W effect library. Captured from live ESP<->MCU serial link. Two entries were flagged as malformed during capture and are excluded until verified.",
+  "_format_note": "hex = 1 scene-ID byte + N frames of 13 bytes. Frame: [0] reserved/unused byte, ignored by the MCU in JUMP and FADE; keep 50 (0x32) or 70 (0x46) for the Tuya layout. [1] frame duration / hold time, the only working timer: JUMP 0..107 = (108 - byte) * 0.1035 s, 108 = fast strobe after ~32.7 s startup delay, 109..255 = wrapped 16-bit ms counter (65.536 s) giving 65.43..50.17 s; FADE period = (108 - byte) * 0.207 s with byte < 65 transition+hold, 65..85 continuous ramp, 86..107 fast overlap. [2] style 00=static 01=jump 02=fade 03=strobe/flash. [3:5] hue degrees 0-360, [5:7] saturation 0-1000, [7:9] RGB value/brightness 0-1000, [9:11] white brightness 0-1000, [11:13] white temperature 0-1000. The UI uses these experimentally confirmed roles; the older '4646 palette' reading was wrong.",
+  "effects": [
+    { "name": "good_night",        "label": "Good Night",        "hex": "000e0d0000000000000000c80000", "type": "white" },
+    { "name": "reading",           "label": "Reading",           "hex": "010e0d0000000000000003e801f4", "type": "white" },
+    { "name": "working",           "label": "Working",           "hex": "020e0d0000000000000003e803e8", "type": "white" },
+    { "name": "leisure",           "label": "Leisure",           "hex": "030e0d0000000000000001f401f4", "type": "white" },
+    { "name": "grassland",         "label": "Grassland",         "hex": "04464602007803e803e800000000464602007803e8000a00000000", "type": "animated" },
+    { "name": "colorful",          "label": "Colorful",          "hex": "05464601000003e803e800000000464601007803e803e80000000046460100f003e803e800000000464601003d03e803e80000000046460100ae03e803e800000000464601011303e803e800000000", "type": "animated" },
+    { "name": "dazzling",          "label": "Dazzling",          "hex": "05464601000003e803e800000000464601007803e803e80000000046460100f003e803e800000000464601003d03e803e80000000046460100ae03e803e800000000464601011303e803e800000000", "type": "animated" },
+    { "name": "gorgeous",          "label": "Gorgeous",          "hex": "07464602000003e803e800000000464602007803e803e80000000046460200f003e803e800000000464602003d03e803e80000000046460200ae03e803e800000000464602011303e803e800000000", "type": "animated" },
+    { "name": "night_light",       "label": "Night Light",       "hex": "08000000001e0320012c00000000", "type": "white" },
+    { "name": "blue_sky",          "label": "Blue Sky",          "hex": "1446460200ae03e803e80000000046460200b4012c03e80000000046460200b4003203e800000000", "type": "animated" },
+    { "name": "sunrise",           "label": "Sunrise",           "hex": "1532320200f003e800640000000032320200f003e803e800000000464602012703e802ee00000000555502000003e803e800000000464602001302ee03e8000000004646020032025803e800000000323202005a038403e800000000", "type": "animated" },
+    { "name": "sunset_glow",       "label": "Sunset Glow",       "hex": "16323202005a0384006400000000323202005a038403e8000000004646020032025803e800000000505002001e02ee03e800000000323202000003e803e800000000", "type": "animated" },
+    { "name": "ocean",             "label": "Ocean",             "hex": "1746460200f003e803e80000000046460200dc02bc03e800000000", "type": "animated" },
+    { "name": "sunflower",         "label": "Sunflower",         "hex": "184646020028032003e800000000464602001e038403e8000000004646020014038403e800000000", "type": "animated" },
+    { "name": "forest",            "label": "Forest",            "hex": "19464601007803e803e800000000464602006e0320025800000000464602005a038403e800000000", "type": "animated" },
+    { "name": "kung_fu",           "label": "Kung Fu",           "hex": "1a464602000a038403e800000000464602000003e803e800000000", "type": "animated" },
+    { "name": "candlelight",       "label": "Candlelight",       "hex": "1b464603001803e803e800000000", "type": "animated" },
+    { "name": "dream",             "label": "Dream",             "hex": "1c4646020104032003e800000000464602011802bc03e800000000464602011303e803e800000000", "type": "animated" },
+    { "name": "mediterranian",    "label": "Mediterranean",     "hex": "1d646401000003e803e80000000064640100f003e803e800000000646402007803e803e800000000646402003d03e803e800000000", "type": "animated" },
+    { "name": "french_style",      "label": "French Style",      "hex": "1e323201015e01f403e800000000323202003201f403e80000000032320200a001f403e800000000", "type": "animated" },
+    { "name": "american",          "label": "American",          "hex": "1f46460100dc02bc03e800000000464602006e03200258000000004646020014038403e800000000464601012703e802ee0000000046460100000384028a00000000", "type": "animated" },
+    { "name": "birthday",          "label": "Birthday",          "hex": "20646401003d03e803e800000000646401007803e803e8000000005a5a01011303e803e8000000005a5a0100ae03e803e800000000646401003201f403e800000000646401000003e803e800000000", "type": "animated" },
+    { "name": "wedding",           "label": "Wedding",           "hex": "21323202015e01f403e800000000323202011303e803e800000000", "type": "animated" },
+    { "name": "christmas",         "label": "Christmas",         "hex": "225a5a0100f003e803e8000000005a5a01003d03e803e800000000464601000003e803e8000000005a5a0100ae03e803e8000000005a5a01011303e803e800000000464601007803e803e800000000", "type": "animated" },
+    { "name": "independance_day",  "label": "Independence Day",  "hex": "23505002000003e803e80000000046460200f003e803e800000000", "type": "animated" },
+    { "name": "diwali",            "label": "Diwali",            "hex": "24464602000003e803e800000000464602003d03e803e800000000464602011303e803e80000000046460200f003e803e800000000464602007803e803e800000000", "type": "animated" },
+    { "name": "holi",              "label": "Holi",              "hex": "25464601011303e803e800000000464602000003e803e800000000464602003d03e803e8000000004646010154032003e8000000004646010140032003e800000000464601001e02ee03e800000000", "type": "animated" },
+    { "name": "victory_day",       "label": "Victory Day",       "hex": "25464601011303e803e800000000464602000003e803e800000000464602003d03e803e8000000004646010154032003e8000000004646010140032003e800000000464601001e02ee03e800000000", "type": "animated" },
+    { "name": "easter",            "label": "Easter",            "hex": "275a5a020014006403e800000000464602000003e803e800000000323202015e01f403e800000000464602011303e803e800000000", "type": "animated" },
+    { "name": "purple_blue_teal",  "label": "Purple/Blue/Teal",  "hex": "04464603410003e803e8000000004646029a0003e803e800000000464601f40003e803e8000000004646029a0003e803e800000000", "type": "animated", "note": "Hand-crafted custom effect - hue bytes are non-standard raw values" },
+    { "name": "halloween",         "label": "Halloween",         "hex": "28464601011303e803e800000000464601001e03e803e800000000", "type": "animated" }
+  ],
+  "malformed_captures": [
+    {
+      "name": "soft",
+      "raw": "08464602000000000000003e800d246460200000000000000c800d2",
+      "note": "55 hex chars - one byte short. Likely dropped byte during serial capture. Do not use until verified."
+    },
+    {
+      "name": "dynamic",
+      "raw": "09323201000000000000003e800d223230100000000000000c800d2",
+      "note": "55 hex chars - one byte short. Likely dropped byte during serial capture. Do not use until verified."
+    }
+  ]
+}

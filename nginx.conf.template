@@ -1,0 +1,42 @@
+server {
+    listen 80;
+    server_name _;
+    root /usr/share/nginx/html;
+    index index.html;
+
+    # No caching: makes it easy to redeploy with an updated effect library.
+    add_header Cache-Control "no-store, max-age=0" always;
+
+    location / {
+        try_files $uri $uri/ /index.html;
+    }
+
+    # Correct MIME type for the JSON library.
+    location = /gledopto_effects.json {
+        default_type application/json;
+    }
+
+    # MJPEG camera proxy. A same-origin URL lets the browser sample canvas pixels.
+    # ${CAMERA_URL} is rendered from the non-committed .env file at container start.
+    location /camera {
+        proxy_pass ${CAMERA_URL};
+        proxy_buffering off;
+        proxy_request_buffering off;
+        proxy_cache off;
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header Connection "";
+        add_header Cache-Control "no-cache, no-store, must-revalidate" always;
+        add_header X-Accel-Buffering "no" always;
+        proxy_read_timeout 3600s;
+    }
+
+    # Backend used by /api/saved and /api/send.
+    # ${API_UPSTREAM} points to the gledopto-api service in the same stack.
+    location /api/ {
+        proxy_pass ${API_UPSTREAM};
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header Content-Type application/json;
+    }
+}

@@ -1,0 +1,60 @@
+# Paste this file into Portainer -> Stacks -> Add stack -> Editor.
+# Values in ${...} come from the local .env file when deployed with Docker Compose.
+# In the Portainer web editor, enter the same values in the stack environment.
+#
+# Fast changes:
+#   - camera URL: edit CAMERA_URL, then redeploy
+#   - API address: API_UPSTREAM is the same-stack service name; keep it as shown
+#   - HTML / JSON: overwrite files in the bind-mounted folder, then Ctrl+F5
+#   - nginx behaviour: edit nginx.conf.template and rebuild the image once
+
+services:
+  gledopto-effects:
+    image: ${IMAGE_NAME}
+    container_name: ${CONTAINER_NAME}
+    restart: unless-stopped
+
+    ports:
+      - "${APP_PORT}:80"
+
+    volumes:
+      - ${HTML_HOST_PATH}:/usr/share/nginx/html
+
+    environment:
+      # Rendered into nginx.conf.template at container start.
+      CAMERA_URL: "${CAMERA_URL}"
+      API_UPSTREAM: "${API_UPSTREAM}"
+
+      # Only CAMERA_* and API_* variables are substituted, so $host is preserved.
+      NGINX_ENVSUBST_FILTER: "^(CAMERA_|API_)"
+
+    # The API runs in this stack; nginx proxies /api/ to it.
+    depends_on:
+      - gledopto-api
+
+    # Local image only: never try to pull it from Docker Hub.
+    # If your Portainer version rejects pull_policy, delete this line.
+    pull_policy: never
+
+    # Uncomment only when Portainer should rebuild from the build context.
+    # build:
+    #   context: ${HTML_HOST_PATH}
+
+  gledopto-api:
+    image: python:3.12-alpine
+    container_name: ${API_CONTAINER_NAME}
+    restart: unless-stopped
+    working_dir: /data
+    command: python /data/server.py
+
+    # The same host folder as the frontend holds server.py and saved_effects.json.
+    volumes:
+      - ${HTML_HOST_PATH}:/data
+
+    # No host port is published: nginx reaches this service at
+    # http://gledopto-api:8000 through the stack network.
+    environment:
+      HA_URL: "${HA_URL}"
+      HA_TOKEN: "${HA_TOKEN}"
+      ESPHOME_SERVICE: "${ESPHOME_SERVICE}"
+      SAVED_FILE_PATH: "${SAVED_FILE_PATH}"
